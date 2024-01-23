@@ -33,10 +33,20 @@ class Player(Sprite):
         self.direction = 1
         self.counter = 0
         self.idle = True
+        self.ghost_image = pygame.image.load("assets/img/ghost.png")
+        self.alive = True
 
-    def update(self, tile_map_list):
-        self.move(tile_map_list)
-        self.animation()
+    def update(self, tile_map_list, enemy_group):
+        if pygame.sprite.spritecollideany(self, enemy_group) and self.alive:
+
+            self.image = self.ghost_image
+            self.alive = False
+        if self.alive:
+            self.move(tile_map_list)
+            self.animation()
+        if not self.alive and self.rect.y >= 200:
+
+                self.rect.y -= 5
 
    
     def move(self, tile_map_list):
