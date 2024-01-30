@@ -11,8 +11,9 @@ restart_button = Button(RESTART_BUTTON_IMAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 player_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 lava_group = pygame.sprite.Group()
+door_group = pygame.sprite.Group()
 
-game_world = World(world_data, player_group, enemy_group, lava_group)
+game_world = World(world_data, player_group, enemy_group, lava_group, door_group)
 
 
 running = True
@@ -23,19 +24,22 @@ while running:
                 running = False
     game_world.draw()
 
-    player_group.update(game_world.tile_map_list, enemy_group)
+    player_group.update(game_world.tile_map_list, enemy_group, door_group)
     if not player_group.sprites()[0].alive:
         restart_button.draw()
         if restart_button.clicked:
             player_group.sprites()[0].alive = True
-
+            player_group.sprites()[0].reset(100, 600)
+    if player_group.sprites()[0].next_level:
+        print("next level")
+        # TODO
 
     player_group.draw(SCREEN)
     enemy_group.update()
     enemy_group.draw(SCREEN)
     lava_group.draw(SCREEN)
+    door_group.draw(SCREEN)
     pygame.display.update()
     clock.tick(FPS)
 
 
-# TODO reset player

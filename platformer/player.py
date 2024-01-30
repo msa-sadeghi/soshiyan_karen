@@ -24,6 +24,10 @@ class Player(Sprite):
             self.idle_left_images.append(img)
 
 
+        self.ghost_image = pygame.image.load("assets/img/ghost.png")
+        self.reset(x,y)
+        
+    def reset(self, x,y):
         self.image = self.idle_right_images[0]
         self.rect = self.image.get_rect(topleft=(x,y))
         self.vel_y = 0
@@ -33,10 +37,11 @@ class Player(Sprite):
         self.direction = 1
         self.counter = 0
         self.idle = True
-        self.ghost_image = pygame.image.load("assets/img/ghost.png")
         self.alive = True
+        self.next_level = False
+        
 
-    def update(self, tile_map_list, enemy_group):
+    def update(self, tile_map_list, enemy_group,door_group):
         if pygame.sprite.spritecollideany(self, enemy_group) and self.alive:
 
             self.image = self.ghost_image
@@ -47,6 +52,10 @@ class Player(Sprite):
         if not self.alive and self.rect.y >= 200:
 
                 self.rect.y -= 5
+                
+        if pygame.sprite.spritecollide(self, door_group, False):
+            self.next_level = True
+            
 
    
     def move(self, tile_map_list):
