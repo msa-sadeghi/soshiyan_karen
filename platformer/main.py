@@ -3,19 +3,28 @@ from pygame.locals import *
 from button import Button
 from constants import *
 from world import World
-from levels.level1 import world_data
-
+import os
+import pickle
 restart_button = Button(RESTART_BUTTON_IMAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-
-
 player_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 lava_group = pygame.sprite.Group()
 door_group = pygame.sprite.Group()
-
+level = 1
+if os.path.exists("levels/level1"):
+    f = open("levels/level1", "rb")
+    world_data = pickle.load(f)
 game_world = World(world_data, player_group, enemy_group, lava_group, door_group)
-
-
+def reset_level():
+    enemy_group.empty()
+    lava_group.empty()
+    door_group.empty()
+    player_group.empty()
+    if os.path.exists(f"levels/level{level}"):
+        f = open(f"levels/level{level}", "rb")
+        world_data = pickle.load(f)
+    game_world = World(world_data, player_group, enemy_group, lava_group, door_group)
+    return game_world
 running = True
 while running:
     for event in pygame.event.get():
@@ -31,8 +40,13 @@ while running:
             player_group.sprites()[0].alive = True
             player_group.sprites()[0].reset(100, 600)
     if player_group.sprites()[0].next_level:
-        print("next level")
-        # TODO
+        level += 1
+        if level <= 2:
+            player_group.sprites()[0].next_level = False
+            world_data = []
+            game_world = reset_level()
+            
+            
 
     player_group.draw(SCREEN)
     enemy_group.update()
