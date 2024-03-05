@@ -15,8 +15,8 @@ class Castle:
         screen.blit(self.image, self.rect)
         
     def shoot(self, bullet_group):
-        pos = pygame.mouse.get_pos()
-        x_dist = pos[0] - self.rect.midleft[0]
+        pos = pygame.mouse.get_pos() # (100,100)
+        x_dist = pos[0] - self.rect.midleft[0] # (23,345)
         y_dist = -(pos[1] - self.rect.midleft[1])
         self.angle = math.atan2(y_dist, x_dist)
         
