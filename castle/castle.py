@@ -2,16 +2,25 @@ from constants import *
 from bullet import Bullet
 import math
 class Castle:
-    def __init__(self, image100, x,y, scale):
+    def __init__(self, image100,image50, image25, x,y, scale):
         self.health = 1000
         self.max_health = self.health
+        self.money = 0
+        self.score = 0
         
         self.image100 = pygame.transform.scale(image100, (image100.get_width() * scale, image100.get_height() * scale))
+        self.image50 = pygame.transform.scale(image50, (image50.get_width() * scale, image50.get_height() * scale))
+        self.image25 = pygame.transform.scale(image25, (image25.get_width() * scale, image25.get_height() * scale))
         self.rect = self.image100.get_rect(topleft= (x,y))
         self.fired = False
         
     def draw(self):
-        self.image = self.image100
+        if self.health <= 250:
+            self.image = self.image25
+        elif self.health <= 500:
+            self.image = self.image50
+        else:
+            self.image = self.image100
         screen.blit(self.image, self.rect)
         
     def shoot(self, bullet_group):
