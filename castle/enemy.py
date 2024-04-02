@@ -30,6 +30,7 @@ class Enemy(Sprite):
             self.health -= 25
             
         if self.health <= 0:
+            
             self.alive = False
             target.money += 200
             target.score += 100
