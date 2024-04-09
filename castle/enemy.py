@@ -15,27 +15,28 @@ class Enemy(Sprite):
         self.last_attack_time = pygame.time.get_ticks()
         
     def update(self, target, bullet_group)    :
-        if self.action == 0:
-            self.rect.x += self.speed
-        if self.rect.right > target.rect.left:
-            self.update_action(1)
-        if self.action == 1 and pygame.time.get_ticks() - self.last_attack_time > 3000:
-            target.health -= 25
-            if target.health < 0:
-                target.health = 0
-            self.last_attack_time = pygame.time.get_ticks()
-                
-        
-        if pygame.sprite.spritecollide(self, bullet_group, True):
-            self.health -= 25
+        if self.alive:
+            if self.action == 0:
+                self.rect.x += self.speed
+            if self.rect.right > target.rect.left:
+                self.update_action(1)
+            if self.action == 1 and pygame.time.get_ticks() - self.last_attack_time > 3000:
+                target.health -= 25
+                if target.health < 0:
+                    target.health = 0
+                self.last_attack_time = pygame.time.get_ticks()
+                    
             
-        if self.health <= 0:
-            
-            self.alive = False
-            target.money += 200
-            target.score += 100
-            self.update_action(2)
+            if pygame.sprite.spritecollide(self, bullet_group, True):
+                self.health -= 25
                 
+            if self.health <= 0:
+                
+                self.alive = False
+                target.money += 200
+                target.score += 100
+                self.update_action(2)
+                    
         self.update_animation()
         
     def update_animation(self):

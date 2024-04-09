@@ -4,6 +4,7 @@ from castle import Castle
 from enemy import Enemy
 from crosshair import CrossHair
 from random import randint, randrange
+from button import Button
 pygame.init()
 
 def show_text(text, font, color, x,y):
@@ -24,7 +25,8 @@ enemy_group = pygame.sprite.Group()
 castle = Castle(castle_img_100,castle_img_50,castle_img_25, SCREEN_WIDTH- 400, SCREEN_HEIGHT-500, 0.3)
 crosshair = CrossHair()
 
-
+repair_btn = Button(repair_img, SCREEN_WIDTH - 150, 10)
+armour_btn = Button(armour_img, SCREEN_WIDTH - 100, 10)
 
 
 running = True
@@ -59,6 +61,10 @@ while running:
         
     
     screen.blit(bg, (0,0)) 
+    if repair_btn.draw(screen):
+        castle.repair()
+    if armour_btn.draw(screen):
+        castle.armour()
     crosshair.draw(screen)
     show_text(f"score: {castle.score}", font28, (255,123,90), 10, 10) 
     castle.draw() 

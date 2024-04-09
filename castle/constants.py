@@ -12,6 +12,13 @@ castle_img_50 = pygame.image.load("assets/castle/castle_50.png")
 castle_img_25 = pygame.image.load("assets/castle/castle_25.png")
 bullet_img = pygame.image.load("assets/bullet.png")
 
+armour_img = pygame.image.load("assets/armour.png")
+w = armour_img.get_width()
+h = armour_img.get_height()
+repair_img = pygame.image.load("assets/repair.png")
+repair_img = pygame.transform.scale(repair_img, (w, h))
+
+
 
 enemy_animations = []
 enemy_types = ("knight", "goblin", "purple_goblin", "red_goblin")
