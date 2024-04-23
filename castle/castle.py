@@ -29,7 +29,7 @@ class Castle:
         y_dist = -(pos[1] - self.rect.midleft[1])
         self.angle = math.atan2(y_dist, x_dist)
         
-        if pygame.mouse.get_pressed()[0] and not self.fired:
+        if pygame.mouse.get_pressed()[0] and not self.fired and pos[1] > 100:
             bullet = Bullet(bullet_img, self.rect.midleft[0], self.rect.midleft[1], self.angle)
             bullet_group.add(bullet)
             self.fired = True

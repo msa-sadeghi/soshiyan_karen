@@ -5,7 +5,7 @@ from pygame.sprite import Sprite
 class Tower(Sprite):
     def __init__(self, image100,image50, image25, x,y, scale):
         
-        
+        super().__init__()
         self.image100 = pygame.transform.scale(image100, (image100.get_width() * scale, image100.get_height() * scale))
         self.image50 = pygame.transform.scale(image50, (image50.get_width() * scale, image50.get_height() * scale))
         self.image25 = pygame.transform.scale(image25, (image25.get_width() * scale, image25.get_height() * scale))
