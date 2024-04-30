@@ -22,11 +22,22 @@ class Soldier(Sprite):
             self.animation_list.append(list1)
         self.image = self.animation_list[self.action][self.image_number]
         self.rect = self.image.get_rect(topleft=(x,y))
+        self.last_update_time = pygame.time.get_ticks()
         
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-        
+    def update(self)    :
+        self.animation()
+    def animation(self):
+        self.image = self.animation_list[self.action][self.image_number]
+        if pygame.time.get_ticks() - self.last_update_time > 100:
+            self.last_update_time = pygame.time.get_ticks()
+            self.image_number += 1
+            if self.image_number >= len(self.animation_list[self.action]):
+                self.image_number = 0
             
+        
+        
         
         
         

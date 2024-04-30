@@ -20,6 +20,7 @@ while running:
             running = False
     screen.fill((0,0,0))        
     player.draw(screen)
+    player.update()
     enemy.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
