@@ -9,6 +9,7 @@ class Soldier(Sprite):
         self.speed = speed
         self.image_number = 0
         self.action = 0
+        self.flip = False
         self.animation_types = ("Idle", "Run", "Jump", "Death")
         for animation in self.animation_types:
             list1 = []
@@ -25,7 +26,7 @@ class Soldier(Sprite):
         self.last_update_time = pygame.time.get_ticks()
         
     def draw(self, screen):
-        screen.blit(self.image, self.rect)
+        screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
     def update(self)    :
         self.animation()
     def animation(self):
@@ -36,9 +37,20 @@ class Soldier(Sprite):
             if self.image_number >= len(self.animation_list[self.action]):
                 self.image_number = 0
             
+    def move(self, moving_left, moving_right)    :
+        dx = 0
+        dy = 0
+        if moving_left:
+            self.flip = True
+            dx -= self.speed
+        if moving_right:
+            self.flip = False
+            dx += self.speed
+            
+        self.rect.x += dx
+        self.rect.y += dy
         
-        
-        
-        
-        
+    def update_action(self, action)   :
+        if action != self.action:
+            self.action = action
         
