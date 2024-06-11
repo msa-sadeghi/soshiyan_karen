@@ -1,6 +1,7 @@
 from pygame.sprite import Sprite
 import pygame
 import os
+from bullet import Bullet
 class Soldier(Sprite):
     def __init__(self, char_type, x,y , scale, speed):
         super().__init__()
@@ -24,10 +25,15 @@ class Soldier(Sprite):
         self.image = self.animation_list[self.action][self.image_number]
         self.rect = self.image.get_rect(topleft=(x,y))
         self.last_update_time = pygame.time.get_ticks()
+        self.direction = 1
+        self.shoot_cooldown = 20
         
     def draw(self, screen):
         screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
     def update(self)    :
+        self.shoot_cooldown -= 1
+        if self.shoot_cooldown <= 0:
+            self.shoot_cooldown = 0
         self.animation()
     def animation(self):
         self.image = self.animation_list[self.action][self.image_number]
@@ -43,9 +49,11 @@ class Soldier(Sprite):
         if moving_left:
             self.flip = True
             dx -= self.speed
+            self.direction = -1
         if moving_right:
             self.flip = False
             dx += self.speed
+            self.direction = 1
             
         self.rect.x += dx
         self.rect.y += dy
@@ -54,3 +62,10 @@ class Soldier(Sprite):
         if action != self.action:
             self.action = action
         
+    def shoot(self, bullet_group):
+        if self.shoot_cooldown == 0:
+            self.shoot_cooldown = 20
+            bullet = Bullet(self.rect.centerx + (0.6 * self.rect.size[0]*self.direction),\
+                self.rect.centery, self.direction)
+            bullet_group.add(bullet)
+      
