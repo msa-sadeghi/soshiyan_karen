@@ -27,6 +27,9 @@ class Soldier(Sprite):
         self.last_update_time = pygame.time.get_ticks()
         self.direction = 1
         self.shoot_cooldown = 20
+        self.jump = False
+        self.vel_y = 0
+        self.in_air = False
         
     def draw(self, screen):
         screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
@@ -54,13 +57,26 @@ class Soldier(Sprite):
             self.flip = False
             dx += self.speed
             self.direction = 1
+        if self.jump and not self.in_air:
+            self.vel_y = -12
+            self.jump = False
+            self.in_air = True
             
+        self.vel_y += 1
+        if self.vel_y > 10:
+            self.vel_y = 10
+        dy += self.vel_y
+        if self.rect.bottom + dy > 300:
+            dy = 300 - self.rect.bottom
+            self.in_air = False
+                   
         self.rect.x += dx
         self.rect.y += dy
         
     def update_action(self, action)   :
         if action != self.action:
             self.action = action
+            self.image_number = 0
         
     def shoot(self, bullet_group):
         if self.shoot_cooldown == 0:

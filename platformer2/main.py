@@ -26,6 +26,8 @@ while running:
                 moving_right = True
             if event.key == pygame.K_SPACE:
                 shoot = True
+            if event.key == pygame.K_UP:
+                player.jump = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 moving_left = False
@@ -33,7 +35,11 @@ while running:
                 moving_right = False
             if event.key == pygame.K_SPACE:
                 shoot = False
-    if moving_left or moving_right:
+            if event.key == pygame.K_UP:
+                player.jump = False
+    if player.in_air:
+        player.update_action(2)
+    elif moving_left or moving_right:
         player.update_action(1)
     else:
         player.update_action(0)   
