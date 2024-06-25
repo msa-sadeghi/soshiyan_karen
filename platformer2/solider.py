@@ -30,6 +30,7 @@ class Soldier(Sprite):
         self.jump = False
         self.vel_y = 0
         self.in_air = False
+        self.grenade_count = 5
         
     def draw(self, screen):
         screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
@@ -85,3 +86,5 @@ class Soldier(Sprite):
                 self.rect.centery, self.direction)
             bullet_group.add(bullet)
       
+      
+    
