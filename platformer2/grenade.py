@@ -1,6 +1,6 @@
 from pygame.sprite import Sprite
 import pygame
-
+from explosion import Explosion
 class Grenade(Sprite):
     def __init__(self, x,y, direction):
         super().__init__()
@@ -11,7 +11,7 @@ class Grenade(Sprite):
         self.vel_y = -11
         self.timer = 100
         
-    def update(self):
+    def update(self, explosion_group):
         self.vel_y += 1
         dx = self.direction * self.speed
         dy = self.vel_y
@@ -22,4 +22,10 @@ class Grenade(Sprite):
             self.direction *= -1
         self.rect.x += dx
         self.rect.y += dy
-        
+        self.timer -= 1
+        if self.timer <= 0:
+            self.kill()
+            explosion = Explosion(self.rect.x, self.rect.y)
+            explosion_group.add(explosion)
+            
+        # TODO   صدمه دیدن بازیکن و یا دشمن

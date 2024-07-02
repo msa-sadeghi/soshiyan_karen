@@ -1,6 +1,8 @@
 import pygame
 from solider import Soldier
 from grenade import Grenade
+
+explosion_group = pygame.sprite.Group()
 pygame.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 640
@@ -67,8 +69,10 @@ while running:
     player.move(moving_left, moving_right)
     bullet_group.update()
     bullet_group.draw(screen)
-    grenade_group.update()
+    grenade_group.update(explosion_group)
     grenade_group.draw(screen)
+    explosion_group.update()
+    explosion_group.draw(screen)
     enemy.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
