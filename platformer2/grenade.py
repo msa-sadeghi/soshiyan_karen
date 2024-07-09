@@ -11,7 +11,7 @@ class Grenade(Sprite):
         self.vel_y = -11
         self.timer = 100
         
-    def update(self, explosion_group):
+    def update(self, explosion_group, player, enemy_group):
         self.vel_y += 1
         dx = self.direction * self.speed
         dy = self.vel_y
@@ -27,5 +27,7 @@ class Grenade(Sprite):
             self.kill()
             explosion = Explosion(self.rect.x, self.rect.y)
             explosion_group.add(explosion)
+            if self.rect.centerx - player.rect.centerx < 80 and self.rect.centery - player.rect.centery < 80:
+                player.health -= 25
             
-        # TODO   صدمه دیدن بازیکن و یا دشمن
+            

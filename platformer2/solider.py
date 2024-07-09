@@ -31,6 +31,9 @@ class Soldier(Sprite):
         self.vel_y = 0
         self.in_air = False
         self.grenade_count = 5
+        self.health = 100
+        self.max_health = 100
+        self.alive = True
         
     def draw(self, screen):
         screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
@@ -39,6 +42,9 @@ class Soldier(Sprite):
         if self.shoot_cooldown <= 0:
             self.shoot_cooldown = 0
         self.animation()
+        if self.health <= 0:
+            self.alive = False
+            self.update_action(3)
     def animation(self):
         self.image = self.animation_list[self.action][self.image_number]
         if pygame.time.get_ticks() - self.last_update_time > 100:

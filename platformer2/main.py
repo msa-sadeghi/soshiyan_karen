@@ -8,6 +8,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 640
 bullet_group = pygame.sprite.Group()
 grenade_group = pygame.sprite.Group()
+enemy_group = pygame.sprite.Group()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 moving_left = False
@@ -20,6 +21,7 @@ clock = pygame.time.Clock()
 
 player = Soldier('player', 200, 300, 3, 3)
 enemy = Soldier('enemy', 400, 300, 3, 3)
+enemy_group.add(enemy)
 running = True
 while running:
     for event in pygame.event.get():
@@ -65,14 +67,18 @@ while running:
              
     screen.fill((0,0,0))        
     player.draw(screen)
+    print("**************************", player.health)
     player.update()
     player.move(moving_left, moving_right)
-    bullet_group.update()
+    bullet_group.update(player, enemy, bullet_group)
     bullet_group.draw(screen)
-    grenade_group.update(explosion_group)
+    grenade_group.update(explosion_group, player, enemy_group)
     grenade_group.draw(screen)
     explosion_group.update()
     explosion_group.draw(screen)
-    enemy.draw(screen)
+    enemy_group.draw(screen)
+    enemy_group.update()
+    for enemy in enemy_group:
+        enemy.move(False, False)
     pygame.display.update()
     clock.tick(FPS)
