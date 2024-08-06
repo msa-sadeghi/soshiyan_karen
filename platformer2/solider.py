@@ -51,7 +51,10 @@ class Soldier(Sprite):
             self.last_update_time = pygame.time.get_ticks()
             self.image_number += 1
             if self.image_number >= len(self.animation_list[self.action]):
-                self.image_number = 0
+                if self.action == 3:
+                    self.image_number = len(self.animation_list[self.action]) - 1
+                else:
+                    self.image_number = 0
             
     def move(self, moving_left, moving_right)    :
         dx = 0
