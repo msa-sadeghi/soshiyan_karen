@@ -27,7 +27,13 @@ class Grenade(Sprite):
             self.kill()
             explosion = Explosion(self.rect.x, self.rect.y)
             explosion_group.add(explosion)
-            if self.rect.centerx - player.rect.centerx < 80 and self.rect.centery - player.rect.centery < 80:
+            if abs(self.rect.centerx - player.rect.centerx) < 60 and abs(self.rect.centery - player.rect.centery) < 60:
                 player.health -= 25
+                
+            for enemy in enemy_group:
+                if abs(self.rect.centerx - enemy.rect.centerx) < 60 and abs(self.rect.centery - enemy.rect.centery) < 60:
+                    enemy.health -= 25
+                    
+                
             
             

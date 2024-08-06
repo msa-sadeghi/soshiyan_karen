@@ -14,11 +14,13 @@ class Bullet(Sprite):
         if self.rect.right < 0 or self.rect.left > 800:
             self.kill()
             
-        if pygame.sprite.spritecollide(player, group, True):
+        if pygame.sprite.spritecollide(player, group, False):
             if player.alive:
                 player.health -= 10
-        if pygame.sprite.spritecollide(enemy, group, True):
+                self.kill()
+        if pygame.sprite.spritecollide(enemy, group, False):
             if enemy.alive:
                 enemy.health -= 10
+                self.kill()
                 
             

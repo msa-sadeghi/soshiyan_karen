@@ -45,6 +45,8 @@ class Soldier(Sprite):
         if self.health <= 0:
             self.alive = False
             self.update_action(3)
+            
+        
     def animation(self):
         self.image = self.animation_list[self.action][self.image_number]
         if pygame.time.get_ticks() - self.last_update_time > 100:
@@ -89,6 +91,11 @@ class Soldier(Sprite):
             self.image_number = 0
         
     def shoot(self, bullet_group):
+        """This Method is used for shooting bullet
+
+        Args:
+            bullet_group (Group): group of solider bullet
+        """
         if self.shoot_cooldown == 0:
             self.shoot_cooldown = 20
             bullet = Bullet(self.rect.centerx + (0.6 * self.rect.size[0]*self.direction),\

@@ -50,26 +50,30 @@ while running:
             if event.key == pygame.K_g:
                 grenade = False
                 grenade_thrown = False
-    if player.in_air:
-        player.update_action(2)
-    elif moving_left or moving_right:
-        player.update_action(1)
-    else:
-        player.update_action(0)   
-    if shoot:
-        player.shoot(bullet_group)    
-    elif grenade and player.grenade_count > 0 and not grenade_thrown:
-        grenade_thrown = True
-        grenade = Grenade(player.rect.centerx + 0.5 * player.rect.size[0] * player.direction,\
-            player.rect.top, player.direction)
-        grenade_group.add(grenade)
-        player.grenade_count -= 1
+    # check if player is alive then he can shoot and so on
+    if player.alive:
+        if player.in_air:
+            player.update_action(2)
+        elif moving_left or moving_right:
+            player.update_action(1)
+        else:
+            player.update_action(0)   
+        if shoot:
+            player.shoot(bullet_group)    
+        elif grenade and player.grenade_count > 0 and not grenade_thrown:
+            grenade_thrown = True
+            grenade = Grenade(player.rect.centerx + 0.5 * player.rect.size[0] * player.direction,\
+                player.rect.top, player.direction)
+            grenade_group.add(grenade)
+            player.grenade_count -= 1
              
     screen.fill((0,0,0))        
     player.draw(screen)
-    print("**************************", player.health)
+    # print("**************************player", player.health)
+    # print("**************************enemy", enemy.health)
     player.update()
-    player.move(moving_left, moving_right)
+    if player.alive:
+        player.move(moving_left, moving_right)
     bullet_group.update(player, enemy, bullet_group)
     bullet_group.draw(screen)
     grenade_group.update(explosion_group, player, enemy_group)
